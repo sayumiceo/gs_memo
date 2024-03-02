@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>myMemoPad</title>
-    <script src="js/jquery-2.1.3.min.js"></script>
-    <link rel="stylesheet" href="css/sample.css">
+    <title>ごはんの時間</title>
+    <script src="kadai/js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="kadai/css/sample.css">
     <link href="https://fonts.googleapis.com/css2?family=Overlock:wght@900&family=Roboto:wght@500&family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Overlock:wght@900&family=Roboto:wght@500&family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -31,6 +31,20 @@
 .fa-star-o {
     color: grey;
 }
+
+.recipe-item {
+    cursor: pointer;
+    border-radius: 40px;
+    background-color: #ffffff94;
+    padding: 10px; /* パディングを追加してテキストに余白を与える */
+    margin: 5px 0; /* リストアイテム間に余白を与える */
+    list-style-type: none; /* リストのデフォルトスタイルを削除 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化を滑らかに */
+}
+
+.recipe-item:hover {
+    background-color: #ffffff; /* ホバー時の背景色 */
+}
 </style>
 
 <body>
@@ -38,7 +52,7 @@
 
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>レシピ日記</h1>
+            <h1>ごはんの時間</h1>
         </div>
         <div class="search-container">
             <input type="text" placeholder="検索...">
@@ -54,7 +68,7 @@
 
     <main>
         <header>
-            <h2>レシピ日記登録</h2>
+            <h2>レシピ記録</h2>
         </header>
 
         <div class="form-section">
@@ -71,14 +85,14 @@
         <div class="left-column">
 
             <div class="form-section">
-                <label class="label-title" for="recipeTitle">タイトル:</label>
+                <label class="label-title" for="recipeTitle">タイトル</label>
                 <div class="form-group">
                     <input type="text" id="recipeTitle" placeholder="レシピのタイトルを入力">
                 </div>
             </div>
 
         <div class="form-section">
-            <label class="label-title" for="mealTime">食事のタイミング:</label>
+            <label class="label-title" for="mealTime">食事のタイミング</label>
             <div class="form-group">
                 <select id="mealTime">
                     <option value="breakfast">朝ご飯</option>
@@ -91,7 +105,7 @@
         </div>
     
         <div class="form-section">
-            <label class="label-title" for="ingredients">必要なものリスト:</label>
+            <label class="label-title" for="ingredients">必要なものリスト</label>
             <div id="ingredients" class="form-group">
                 <!-- JavaScriptで動的に行を追加するためのコンテナ -->
                 <div id="ingredientsList">
@@ -102,7 +116,7 @@
         </div>
 
         <div class="form-section">
-            <label class="label-title" for="audienceType">人数:</label>
+            <label class="label-title" for="audienceType">人数</label>
             <div class="form-group">
                 <select id="audienceType">
                         <option value="adult">大人</option>
@@ -113,7 +127,7 @@
             </div>
     
             <div class="form-section">
-                <label class="label-title" for="cookTime">料理時間:</label>
+                <label class="label-title" for="cookTime">料理時間</label>
                 <div class="form-group">
                     <select id="cookDays"></select>
                     <label for="cookDays">日</label>
@@ -127,7 +141,7 @@
             </div>
     
             <div class="form-section">
-                <label class="label-title" for="cuisine">料理の種類:</label>
+                <label class="label-title" for="cuisine">料理の種類</label>
                 <div class="form-group">
                     <select id="cuisine">
                         <!-- オプション -->
@@ -136,7 +150,7 @@
             </div>
 
             <div class="form-section"></div>
-                    <label class="label-title" for="keywords">Enter tags:</label>
+                    <label class="label-title" for="keywords">タグ</label>
                   
                     <div id="keywords" class="tag-input-container">
                     <div id="keywordTags" class="tags"></div>
@@ -145,7 +159,7 @@
     
     
                 <div class="form-section">
-                    <label class="label-title" for="makeAgain">また作りたい:</label>
+                    <label class="label-title" for="makeAgain">お気に入り登録</label>
                     <div class="form-group">
                         <input type="checkbox" id="makeAgain">
                         <label for="makeAgain"></label>
@@ -157,14 +171,14 @@
            
      <div class="right-column">
         <div class="form-section">
-                <label class="label-title" for="recipe">作り方:</label>
+                <label class="label-title" for="recipe">作り方のポイント</label>
                 <div class="form-group">
                     <textarea id="recipe"></textarea>
                 </div>
             </div>
     
             <div class="form-section">
-                <label class="label-title" for="rating">評価:</label>
+                <label class="label-title" for="rating">レビュー</label>
                 <div id="rating" class="form-group">
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star-o"></i>
@@ -363,6 +377,7 @@ $(document).ready(function() {
 
 function saveRecipe() {
     const recipe = {
+        id: Date.now(), // ユニークIDとして現在のタイムスタンプを使用
         title: document.getElementById('recipeTitle').value,
         mealTime: document.getElementById('mealTime').value,
         ingredients: document.getElementById('ingredients').innerHTML,
@@ -388,20 +403,66 @@ function displayRecipes() {
     let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
     let list = document.querySelector('.menu ul');
     
-    // "レシピ一覧"と"設定"を除くリストアイテムをクリア
+    // 以前のリストアイテムをクリア
     list.querySelectorAll('li:not(.static-link)').forEach(li => li.remove());
 
-    // 配列を逆順にしてからループを実行
+    // 逆順にしてからループを実行
     recipes.slice().reverse().forEach(recipe => {
         let listItem = document.createElement('li');
         listItem.textContent = recipe.title || `レシピ ${recipes.indexOf(recipe) + 1}`;
-        // "レシピ一覧"のリンクの後ろに挿入する
-        const firstDynamicListItem = list.querySelector('.dynamic') || list.querySelector('.static-link').nextSibling;
-        list.insertBefore(listItem, firstDynamicListItem);
-        listItem.classList.add('dynamic'); // 追加されたリストアイテムにクラスを付ける
+        listItem.classList.add('dynamic', 'recipe-item'); // 'recipe-item' クラスを追加
+        listItem.setAttribute('data-id', recipe.id);
+        listItem.onclick = function() { displayRecipeDetails(recipe.id); };
+        list.insertBefore(listItem, list.querySelector('.static-link').nextSibling);
     });
 }
 
+
+
+function displayRecipeDetails(recipeId) {
+    let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    let recipe = recipes.find(r => r.id === recipeId);
+    if (recipe) {
+        // レシピの詳細を表示するコード
+        document.getElementById('recipeTitle').value = recipe.title;
+        document.getElementById('mealTime').value = recipe.mealTime;
+        document.getElementById('ingredients').innerHTML = recipe.ingredients;
+        document.getElementById('audienceType').value = recipe.audienceType;
+        document.getElementById('audienceCount').value = recipe.audienceCount;
+        document.getElementById('cookDays').value = recipe.cookDays;
+        document.getElementById('cookHours').value = recipe.cookHours;
+        document.getElementById('cookMins').value = recipe.cookMins;
+        document.getElementById('cuisine').value = recipe.cuisine;
+        document.getElementById('recipe').value = recipe.recipe;
+               // 評価（星の数）を設定
+               const stars = document.querySelectorAll('#rating .fa');
+        stars.forEach((star, index) => {
+            if (index < recipe.rating) {
+                star.classList.add('fa-star');
+                star.classList.add('active');
+                star.classList.remove('fa-star-o');
+            } else {
+                star.classList.add('fa-star-o');
+                star.classList.remove('fa-star');
+                star.classList.remove('active');
+            }
+        });
+
+        // タグを設定
+        const keywordTags = document.getElementById('keywordTags');
+        keywordTags.innerHTML = ''; // 既存のタグをクリア
+        recipe.tags.forEach(tagText => {
+            addKeywordTag(tagText, keywordTags); // 新しいタグを追加
+        });
+
+        // また作りたいかのチェックを設定
+        document.getElementById('makeAgain').checked = recipe.makeAgain;
+
+        // コメントを設定
+        document.getElementById('ratingComment').value = recipe.comment || ''; // コメントがあれば設定
+    }
+    
+}
 
 
 function deleteRecipe() {

@@ -248,3 +248,17 @@ button:hover {
     width: 100%; /* テキストエリアを親要素の幅に合わせる */
     height: 150px; /* または必要に応じて */
 }
+
+.recipe-item {
+    cursor: pointer;
+    border-radius: 40px;
+    background-color: #ffffff94;
+    padding: 10px; /* パディングを追加してテキストに余白を与える */
+    margin: 5px 0; /* リストアイテム間に余白を与える */
+    list-style-type: none; /* リストのデフォルトスタイルを削除 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化を滑らかに */
+}
+
+.recipe-item:hover {
+    background-color: #ffffff; /* ホバー時の背景色 */
+}
