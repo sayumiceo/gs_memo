@@ -413,9 +413,22 @@ function displayRecipes() {
         listItem.classList.add('dynamic', 'recipe-item'); // 'recipe-item' クラスを追加
         listItem.setAttribute('data-id', recipe.id);
         listItem.onclick = function() { displayRecipeDetails(recipe.id); };
+
+        // 削除ボタンを追加
+        // displayRecipes 関数内のループ
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'x'; // "削除" テキストを "x" に変更
+        deleteBtn.classList.add('delete-btn'); // CSSクラスを追加
+        deleteBtn.setAttribute('data-id', recipe.id);
+        deleteBtn.onclick = function(e) {
+            e.stopPropagation();
+            deleteRecipe(recipe.id);
+        };
+        listItem.appendChild(deleteBtn);
         list.insertBefore(listItem, list.querySelector('.static-link').nextSibling);
     });
 }
+
 
 
 
@@ -465,11 +478,24 @@ function displayRecipeDetails(recipeId) {
 }
 
 
-function deleteRecipe() {
-    // This function should be modified to identify which recipe to delete
-    localStorage.removeItem('recipes');
-    displayRecipes(); // Update the recipe list
+function deleteRecipe(recipeId) {
+    // レシピIDを数値に変換（もし文字列として渡された場合）
+    recipeId = parseInt(recipeId, 10);
+
+    // ローカルストレージからレシピを取得
+    let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    
+    // 指定されたIDを持つレシピを除外してフィルタリング
+    recipes = recipes.filter(recipe => recipe.id !== recipeId);
+    
+    // 更新されたレシピリストをローカルストレージに保存
+    localStorage.setItem('recipes', JSON.stringify(recipes));
+    
+    // レシピ一覧を更新
+    displayRecipes();
 }
+
+
 
 // ページ読み込み時とレシピ保存時にリスト表示を更新
 document.addEventListener('DOMContentLoaded', displayRecipes);

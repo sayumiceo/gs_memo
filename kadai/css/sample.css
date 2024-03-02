@@ -262,3 +262,24 @@ button:hover {
 .recipe-item:hover {
     background-color: #ffffff; /* ホバー時の背景色 */
 }
+
+.delete-btn {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #ff0000; /* 赤色の x を表示 */
+    font-weight: bold;
+    font-size: 16px; /* x のサイズ */
+    border-radius: 50%; /* ボタンを円形に */
+    width: 20px; /* ボタンの幅 */
+    height: 20px; /* ボタンの高さ */
+    line-height: 20px; /* テキストをボタンの中央に配置 */
+    text-align: center;
+    padding: 0;
+    margin-left: 10px; /* リストアイテムテキストとの間隔 */
+    display: inline-block; /* インライン要素のように扱う */
+}
+
+.delete-btn:hover {
+    background-color: #f3f3f3; /* 背景色を変更 */
+}
