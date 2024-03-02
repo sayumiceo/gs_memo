@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>myMemoPad</title>
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css">
+    <link href="https://fonts.googleapis.com/css2?family=Overlock:wght@900&family=Roboto:wght@500&family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Overlock:wght@900&family=Roboto:wght@500&family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+</head>
+
+<style>
+.fa {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#rating {
+    font-size: 0;
+    width: 140px;
+}
+
+
+.fa-star {
+    color: gold;
+}
+
+.fa-star-o {
+    color: grey;
+}
+</style>
+
+<body>
+
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>レシピ日記</h1>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="検索...">
+        </div>
+        <button class="create-button">新規作成</button>
+        <nav class="menu">
+            <ul>
+                <li class="static-link"><a href="#recipes">レシピ一覧</a></li>
+                <li class="static-link"><a href="#settings">設定</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        <header>
+            <h2>レシピ日記登録</h2>
+        </header>
+
+        <div class="form-section">
+            <div class="button-group">
+                <button type="button" class="save-button" onclick="saveRecipe()">Save</button>
+                <button type="button" class="draft-button" onclick="clearForm()">下書き</button>
+                <button type="button" class="delete-button" onclick="deleteRecipe()">削除</button>
+            </div>
+        </div>
+    
+<!-- 食事のタイミングのセクション -->
+<div id="app">
+    <form id="recipeForm" class="form-layout">
+        <div class="left-column">
+
+            <div class="form-section">
+                <label class="label-title" for="recipeTitle">タイトル:</label>
+                <div class="form-group">
+                    <input type="text" id="recipeTitle" placeholder="レシピのタイトルを入力">
+                </div>
+            </div>
+
+        <div class="form-section">
+            <label class="label-title" for="mealTime">食事のタイミング:</label>
+            <div class="form-group">
+                <select id="mealTime">
+                    <option value="breakfast">朝ご飯</option>
+                    <option value="lunch">昼ごはん</option>
+                    <option value="snack">おやつ</option>
+                    <option value="dinner">夜ご飯</option>
+                    <option value="lateNight">夜食</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="form-section">
+            <label class="label-title" for="ingredients">必要なものリスト:</label>
+            <div id="ingredients" class="form-group">
+                <!-- JavaScriptで動的に行を追加するためのコンテナ -->
+                <div id="ingredientsList">
+                    <!-- JavaScriptでここに入力フィールドが追加される -->
+                </div>
+                <button type="button" onclick="addIngredient()">追加</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label class="label-title" for="audienceType">人数:</label>
+            <div class="form-group">
+                <select id="audienceType">
+                        <option value="adult">大人</option>
+                        <option value="child">子供</option>
+                    </select>
+                    <input type="number" id="audienceCount" min="1">
+                </div>
+            </div>
+    
+            <div class="form-section">
+                <label class="label-title" for="cookTime">料理時間:</label>
+                <div class="form-group">
+                    <select id="cookDays"></select>
+                    <label for="cookDays">日</label>
+                    
+                    <select id="cookHours"></select>
+                    <label for="cookHours">時間</label>
+                
+                    <select id="cookMins"></select>
+                    <label for="cookMins">分</label>
+                </div>
+            </div>
+    
+            <div class="form-section">
+                <label class="label-title" for="cuisine">料理の種類:</label>
+                <div class="form-group">
+                    <select id="cuisine">
+                        <!-- オプション -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section"></div>
+                    <label class="label-title" for="keywords">Enter tags:</label>
+                  
+                    <div id="keywords" class="tag-input-container">
+                    <div id="keywordTags" class="tags"></div>
+                     <input type="text" id="keywordInput" class="tag-input" placeholder="Enter tags">
+                    </div>
+    
+    
+                <div class="form-section">
+                    <label class="label-title" for="makeAgain">また作りたい:</label>
+                    <div class="form-group">
+                        <input type="checkbox" id="makeAgain">
+                        <label for="makeAgain"></label>
+                    </div>
+                </div>
+
+
+     </div>
+           
+     <div class="right-column">
+        <div class="form-section">
+                <label class="label-title" for="recipe">作り方:</label>
+                <div class="form-group">
+                    <textarea id="recipe"></textarea>
+                </div>
+            </div>
+    
+            <div class="form-section">
+                <label class="label-title" for="rating">評価:</label>
+                <div id="rating" class="form-group">
+                    <i class="fa fa-star active"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+            </div>
+
+            <div class="form-section">
+            <textarea id="ratingComment" placeholder="コメント"></textarea>
+    </div>
+    
+
+        </div>
+
+        </form>
+     </div>
+
+
+    </main>
+
+    <footer></footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+window.onload = function() {
+    initDaysDropdown();
+    initHoursDropdown();
+    initMinsDropdown();
+    addIngredient();
+    initCuisineDropdown(); // 料理の種類のドロップダウンを初期化
+};
+
+function addIngredient() {
+    const ingredientsList = document.getElementById('ingredientsList');
+
+    const ingredientDiv = document.createElement('div');
+    ingredientDiv.classList.add('ingredient-item');
+
+    const itemInput = document.createElement('input');
+    itemInput.type = 'text';
+    itemInput.placeholder = '項目名';
+    itemInput.classList.add('ingredient-input');
+
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'text';
+    quantityInput.placeholder = '量';
+    quantityInput.classList.add('ingredient-input');
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '🗑️';
+    deleteButton.classList.add('delete-ingredient');
+    deleteButton.onclick = function() {
+        ingredientsList.removeChild(ingredientDiv);
+    };
+
+    ingredientDiv.appendChild(itemInput);
+    ingredientDiv.appendChild(quantityInput);
+    ingredientDiv.appendChild(deleteButton);
+
+    ingredientsList.appendChild(ingredientDiv);
+}
+
+
+function saveRecipe() {
+    // フォームの内容をLocal Storageに保存
+}
+
+function clearForm() {
+    // フォームの内容をクリア
+}
+
+function deleteRecipe() {
+    // Local Storageからレシピを削除
+}
+
+
+function initDaysDropdown() {
+    const daysSelect = document.getElementById('cookDays');
+    for (let i = 0; i <= 5; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${i}`;
+        daysSelect.appendChild(option);
+    }
+}
+
+function initHoursDropdown() {
+    const hoursSelect = document.getElementById('cookHours');
+    for (let i = 0; i <= 23; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${i}`;
+        hoursSelect.appendChild(option);
+    }
+}
+
+function initMinsDropdown() {
+    const minsSelect = document.getElementById('cookMins');
+    // 0分から5分まで1分刻みで追加
+    for (let i = 0; i <= 5; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${i}`;
+        minsSelect.appendChild(option);
+    }
+    // 10分から55分まで5分刻みで追加
+    for (let i = 10; i <= 55; i += 5) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${i}`;
+        minsSelect.appendChild(option);
+    }
+}
+
+
+function initCuisineDropdown() {
+    const cuisineSelect = document.getElementById('cuisine');
+    const cuisines = [
+        "イタリアン", "フランス", "中国", "日本", "インド", "メキシコ", "タイ", "スペイン", "中東", 
+        "ギリシャ", "韓国", "ベトナム", "モロッコ", "エチオピア", "カリブ", "ブラジル", "トルコ", 
+        "ドイツ", "ロシア", "ポルトガル", "マレーシア", "インドネシア", "ペルー", "アルゼンチン", 
+        "キューバ", "フィリピン", "レバノン", "エジプト", "南アフリカ", "オーストラリア", "イギリス", 
+        "アメリカ", "ベルギー", "スウェーデン", "デンマーク", "ポーランド", "ハンガリー", "チェコ", 
+        "ルーマニア", "ブルガリア", "オランダ", "スイス", "オーストリア", "アイルランド", "スコットランド", 
+        "ジョージア", "アルメニア", "イラン", "イラク", "パキスタン"
+    ];
+
+    cuisines.forEach(function(cuisine) {
+        const option = document.createElement('option');
+        option.value = cuisine;
+        option.textContent = cuisine;
+        cuisineSelect.appendChild(option);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const keywordInput = document.getElementById('keywordInput');
+    const keywordTags = document.getElementById('keywordTags');
+
+    keywordInput.addEventListener('keydown', function(event) {
+        // Enterキーが押されたときにタグを追加
+        if (event.key === 'Enter') {
+            event.preventDefault(); // フォームの送信を防ぐ
+            addKeywordTag(keywordInput.value, keywordTags);
+            keywordInput.value = ''; // 入力フィールドをクリア
+        }
+    });
+});
+
+function addKeywordTag(text, container) {
+    text = text.trim();
+    if (text) {
+        const tag = document.createElement('div');
+        tag.className = 'tag';
+        tag.textContent = text;
+
+        const removeBtn = document.createElement('span');
+        removeBtn.className = 'remove-tag';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = function() { container.removeChild(tag); };
+
+        tag.appendChild(removeBtn);
+        container.appendChild(tag);
+    }
+}
+
+$(document).ready(function() {
+    // 星のマウスオーバーイベント
+    $('#rating .fa').on('mouseover', function(){
+        $(this).addClass('fa-star').removeClass('fa-star-o');
+        $(this).prevAll().addClass('fa-star').removeClass('fa-star-o');
+        $(this).nextAll().addClass('fa-star-o').removeClass('fa-star');
+    });
+
+    // 星のクリックイベント
+    $('#rating .fa').on('click', function(){
+        $(this).addClass('active fa-star').removeClass('fa-star-o');
+        $(this).prevAll().addClass('fa-star').removeClass('fa-star-o');
+        $(this).nextAll().removeClass('fa-star active').addClass('fa-star-o');
+    });
+
+    // 星のマウスリーブイベント
+    $('#rating').on('mouseleave', function(){
+        $('#rating .fa').removeClass('fa-star').addClass('fa-star-o');
+        var active = $('#rating .fa.active');
+        if(active.length) {
+            active.addClass('fa-star').removeClass('fa-star-o');
+            active.prevAll().addClass('fa-star').removeClass('fa-star-o');
+        }
+    });
+});
+
+
+
+function saveRecipe() {
+    const recipe = {
+        title: document.getElementById('recipeTitle').value,
+        mealTime: document.getElementById('mealTime').value,
+        ingredients: document.getElementById('ingredients').innerHTML,
+        audienceType: document.getElementById('audienceType').value,
+        audienceCount: document.getElementById('audienceCount').value,
+        cookDays: document.getElementById('cookDays').value,
+        cookHours: document.getElementById('cookHours').value,
+        cookMins: document.getElementById('cookMins').value,
+        cuisine: document.getElementById('cuisine').value,
+        recipe: document.getElementById('recipe').value,
+        rating: document.getElementById('rating').getElementsByClassName('active').length,
+        tags: [...document.getElementById('keywordTags').children].map(tag => tag.textContent),
+        makeAgain: document.getElementById('makeAgain').checked
+    };
+    // 新しいレシピを配列の先頭に追加
+    let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    recipes.unshift(recipe); // unshiftメソッドを使用して配列の先頭に追加
+    localStorage.setItem('recipes', JSON.stringify(recipes));
+    displayRecipes(); // レシピ一覧を更新
+}
+
+function displayRecipes() {
+    let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    let list = document.querySelector('.menu ul');
+    
+    // "レシピ一覧"と"設定"を除くリストアイテムをクリア
+    list.querySelectorAll('li:not(.static-link)').forEach(li => li.remove());
+
+    // 配列を逆順にしてからループを実行
+    recipes.slice().reverse().forEach(recipe => {
+        let listItem = document.createElement('li');
+        listItem.textContent = recipe.title || `レシピ ${recipes.indexOf(recipe) + 1}`;
+        // "レシピ一覧"のリンクの後ろに挿入する
+        const firstDynamicListItem = list.querySelector('.dynamic') || list.querySelector('.static-link').nextSibling;
+        list.insertBefore(listItem, firstDynamicListItem);
+        listItem.classList.add('dynamic'); // 追加されたリストアイテムにクラスを付ける
+    });
+}
+
+
+
+function deleteRecipe() {
+    // This function should be modified to identify which recipe to delete
+    localStorage.removeItem('recipes');
+    displayRecipes(); // Update the recipe list
+}
+
+// ページ読み込み時とレシピ保存時にリスト表示を更新
+document.addEventListener('DOMContentLoaded', displayRecipes);
+
+
+</script>
+</body>
+
+</html>
