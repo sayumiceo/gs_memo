@@ -259,7 +259,6 @@ main {
 button {
     border: none;
     border-radius: 40px; 
-    padding: 10px 20px; 
     background-color: #feaf39; 
     color: white; 
     cursor: pointer; 
@@ -293,6 +292,7 @@ button:hover {
 
 .save-button, .draft-button, .delete-button {
     margin-left: 10px; /* ボタン間の余白を追加 */
+    padding: 0 30px; 
 }
 
   
@@ -395,18 +395,18 @@ button:hover {
   }
   
   .button-like:hover {
-    border-color: #cc4b37;
+    border-color: #e77694;
     background-color: transparent;
   }
   
   .button-like:hover .fa,
   .button-like:hover span {
-    color: #cc4b37;
+    color: #e77694;
   }
   
   .liked {
-    background-color: #cc4b37;
-    border-color: #cc4b37;
+    background-color: #e77694;
+    border-color: #e77694;
   }
   
   .liked .fa,
@@ -415,7 +415,7 @@ button:hover {
   }
   
   .liked:focus {
-    background-color: #cc4b37;
+    background-color: #e77694;
   }
   
   .liked:focus .fa,
@@ -424,8 +424,8 @@ button:hover {
   }
   
   .liked:hover {
-    background-color: #cc4b37;
-    border-color: #cc4b37;
+    background-color: #e77694;
+    border-color: #e77694;
   }
   
   .liked:hover .fa,

@@ -85,10 +85,16 @@
 
         <div class="form-section">
             <div class="button-group">
+                <button class="button button-like" id="makeAgain">
+                    <i class="fa fa-heart like-icon"></i> <!-- like-iconクラスを追加 -->
+                    <span>また作りたい</span>
+                  </button>
                 <button type="button" class="save-button" onclick="saveRecipe()">Save</button>
                 <button type="button" class="draft-button" onclick="clearForm()">下書き</button>
                 <button type="button" class="delete-button" onclick="deleteRecipe()">削除</button>
             </div>
+                
+        
         </div>
     
     
@@ -123,7 +129,7 @@
                     <div id="ingredientsList">
                         <!-- JavaScriptでここに入力フィールドが追加される -->
                     </div>
-                    <button type="button" onclick="addIngredient()">追加</button>
+                    <button type="button" onclick="addIngredient()">＋</button>
                 </div>
             </div>
 
@@ -169,17 +175,6 @@
                     <input type="text" id="keywordInput" class="tag-input" placeholder="Enter tags">
                 </div>
     
-    
-                <div class="form-section">
-                    <label class="label-title" for="makeAgain">お気に入り登録</label>
-                    <div class="form-group">
-                          <button class="button button-like" id="makeAgain">
-                            <i class="fa fa-heart like-icon"></i> <!-- like-iconクラスを追加 -->
-                            <span>Like</span>
-                          </button>
-                    </div>
-                  
-                </div>
         </div>        
            
      <div class="right-column">
