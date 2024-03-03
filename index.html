@@ -90,7 +90,7 @@
                     <span>また作りたい</span>
                   </button>
                   <button type="button" class="save-button">保存</button>
-                  <button type="button" class="delete-button">削除</button>
+                  <button type="button" class="delete-button">クリア</button>
                   
             </div>
                 
@@ -219,6 +219,7 @@ window.onload = function() {
     initCuisineDropdown(); // 料理の種類のドロップダウンを初期化
 };
 
+// -----------------材料追加---------------------------------- //
 function addIngredient() {
     const ingredientsList = document.getElementById('ingredientsList');
 
@@ -250,7 +251,7 @@ function addIngredient() {
 }
 
 
-
+// -----------------時間---------------------------------- //
 function initDaysDropdown() {
     const daysSelect = document.getElementById('cookDays');
     for (let i = 0; i <= 5; i++) {
@@ -289,11 +290,11 @@ function initMinsDropdown() {
     }
 }
 
-
+// -----------------種類---------------------------------- //
 function initCuisineDropdown() {
     const cuisineSelect = document.getElementById('cuisine');
     const cuisines = [
-        "イタリアン", "フランス", "中国", "日本", "インド", "メキシコ", "タイ", "スペイン", "中東", 
+        "なし", "イタリアン", "フランス", "中国", "日本", "インド", "メキシコ", "タイ", "スペイン", "中東", 
         "ギリシャ", "韓国", "ベトナム", "モロッコ", "エチオピア", "カリブ", "ブラジル", "トルコ", 
         "ドイツ", "ロシア", "ポルトガル", "マレーシア", "インドネシア", "ペルー", "アルゼンチン", 
         "キューバ", "フィリピン", "レバノン", "エジプト", "南アフリカ", "オーストラリア", "イギリス", 
@@ -310,6 +311,7 @@ function initCuisineDropdown() {
     });
 }
 
+// -----------------キーワード---------------------------------- //
 document.addEventListener('DOMContentLoaded', function() {
     const keywordInput = document.getElementById('keywordInput');
     const keywordTags = document.getElementById('keywordTags');
@@ -341,6 +343,7 @@ function addKeywordTag(text, container) {
     }
 }
 
+// -----------------評価---------------------------------- //
 $(document).ready(function() {
     // 星のマウスオーバーイベント
     $('#rating .fa').on('mouseover', function(){
@@ -368,7 +371,7 @@ $(document).ready(function() {
 });
 
 
-
+// -----------------レシピセーブ---------------------------------- //
 function saveRecipe() {
     const recipe = {
         id: Date.now(), // ユニークIDとして現在のタイムスタンプを使用
@@ -384,7 +387,7 @@ function saveRecipe() {
         recipe: document.getElementById('recipe').value,
         rating: document.getElementById('rating').getElementsByClassName('active').length,
         tags: [...document.getElementById('keywordTags').children].map(tag => tag.textContent),
-        makeAgain: document.getElementById('makeAgain').checked
+        makeAgain: $('#makeAgain').hasClass('liked')  
     };
     // 新しいレシピを配列の先頭に追加
     let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
@@ -393,6 +396,7 @@ function saveRecipe() {
     displayRecipes(); // レシピ一覧を更新
 }
 
+// -----------------記事削除---------------------------------- //
 function displayRecipes() {
     let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
     let list = document.querySelector('.menu ul');
@@ -408,8 +412,13 @@ function displayRecipes() {
         listItem.setAttribute('data-id', recipe.id);
         listItem.onclick = function() { displayRecipeDetails(recipe.id); };
 
-        // 削除ボタンを追加
-        // displayRecipes 関数内のループ
+        if (recipe.makeAgain) {
+            $('#makeAgain').addClass('liked');  // 'liked'クラスを追加
+        } else {
+            $('#makeAgain').removeClass('liked');  // 'liked'クラスを削除
+        }
+
+
         let deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'x'; // "削除" テキストを "x" に変更
         deleteBtn.classList.add('delete-btn'); // CSSクラスを追加
@@ -423,6 +432,7 @@ function displayRecipes() {
     });
 }
 
+// -----------------クリアボタン---------------------------------- //
 document.addEventListener('DOMContentLoaded', function() {
     // 削除ボタンの選択
     const deleteButton = document.querySelector('.delete-button');
@@ -446,6 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('recipe').value = '';
         document.getElementById('ratingComment').value = '';
      
+        $('#makeAgain').removeClass('liked'); 
 
         // フォームがクリアされたことをユーザーに知らせるアラートを表示
         alert('フォームの入力項目がクリアされました。');
@@ -453,8 +464,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+$(document).ready(function() {
+  $('#makeAgain').click(function(event) {
+    $(this).toggleClass("liked");
+  });
+});
 
 
+// -----------------保存---------------------------------- //
 function displayRecipeDetails(recipeId) {
     let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
     let recipe = recipes.find(r => r.id === recipeId);
@@ -548,11 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-$(document).ready(function() {
-  $('#makeAgain').click(function(event) {
-    $(this).toggleClass("liked");
-  });
-});
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
