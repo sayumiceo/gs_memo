@@ -423,6 +423,35 @@ function displayRecipes() {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    // 削除ボタンの選択
+    const deleteButton = document.querySelector('.delete-button');
+
+    // 削除ボタンに対するクリックイベントリスナーの追加
+    deleteButton.addEventListener('click', function() {
+        // ローカルストレージから特定の項目を削除
+        // ここで 'recipeData' は削除したいローカルストレージの項目のキーです
+        localStorage.removeItem('recipeData');
+
+        // レシピタイトルの入力フィールドをクリア
+        document.getElementById('recipeTitle').value = '';
+        document.getElementById('mealTime').value = '';
+        document.getElementById('ingredients').innerHTML = '';
+        document.getElementById('audienceType').value = '';
+        document.getElementById('audienceCount').value = '';
+        document.getElementById('cookDays').value = '';
+        document.getElementById('cookHours').value = '';
+        document.getElementById('cookMins').value = '';
+        document.getElementById('cuisine').value = '';
+        document.getElementById('recipe').value = '';
+        document.getElementById('ratingComment').value = '';
+     
+
+        // フォームがクリアされたことをユーザーに知らせるアラートを表示
+        alert('フォームの入力項目がクリアされました。');
+    });
+
+});
 
 
 
@@ -535,10 +564,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             saveRecipe();
         }
-    });
-
-    document.querySelector('.delete-button').addEventListener('click', function() {
-        deleteRecipe();
     });
 });
 
