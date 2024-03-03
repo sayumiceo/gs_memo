@@ -17,7 +17,9 @@ main {
     background-color:rgb(241, 235, 212);
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* パディングを含む総幅をwidthにする */
 }
+
 
 .sidebar-header {
     margin-bottom: 40px;
@@ -30,9 +32,9 @@ main {
 .search-container input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #dddddd00;
+    border: 1px solid #ccccccb1; 
     border-radius: 5px;
+    box-sizing: border-box; /* パディングとボーダーを含む総幅をwidthにする */
 }
 
 .create-button {
@@ -51,10 +53,86 @@ main {
     background-color: #ffd12c;
 }
 
+.settings-container {
+    padding: 15px;
+
+}
+
+/* トグルスイッチのスタイル */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e7cf72;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #aade79;
+  }
+  
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  body.dark-mode {
+    background-color: #323131;
+    color: #ffffff;
+  }
+  
+  body.dark-mode .sidebar {
+    background-color: #242424;
+  }
+  
+  body.dark-mode .menu a {
+    color: #ffffff;
+  }
+
 
 /* タイトルのスタイル */
 .label-title {
-    font-size: 16px; /* またはお好みのサイズ */
+    font-size: 16px; 
     font-weight: bold; /* 太字にする */
     margin-bottom: 5px; /* 下に少し余白を追加 */
     display: block; /* ブロックレベル要素にする */
@@ -283,3 +361,74 @@ button:hover {
 .delete-btn:hover {
     background-color: #f3f3f3; /* 背景色を変更 */
 }
+
+.button-like {
+    border: 2px solid #8a8a8a;
+    background-color: transparent;
+    text-decoration: none;
+    padding: 1rem;
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    border-radius: 3rem;
+    color: #8a8a8a;
+    transition: all ease 0.4s;
+  }
+  
+  .button-like span {
+    margin-left: 0.5rem;
+  }
+  
+  /* お気に入りボタンのFontAwesomeアイコン専用のスタイル */
+  .button-like .fa-heart {
+    transition: all ease 0.4s;
+  }
+  
+  .button-like:focus {
+    background-color: transparent;
+  }
+  
+  .button-like:focus .fa,
+  .button-like:focus span {
+    color: #8a8a8a;
+  }
+  
+  .button-like:hover {
+    border-color: #cc4b37;
+    background-color: transparent;
+  }
+  
+  .button-like:hover .fa,
+  .button-like:hover span {
+    color: #cc4b37;
+  }
+  
+  .liked {
+    background-color: #cc4b37;
+    border-color: #cc4b37;
+  }
+  
+  .liked .fa,
+  .liked span {
+    color: #fefefe;
+  }
+  
+  .liked:focus {
+    background-color: #cc4b37;
+  }
+  
+  .liked:focus .fa,
+  .liked:focus span {
+    color: #fefefe;
+  }
+  
+  .liked:hover {
+    background-color: #cc4b37;
+    border-color: #cc4b37;
+  }
+  
+  .liked:hover .fa,
+  .liked:hover span {
+    color: #fefefe;
+  }
