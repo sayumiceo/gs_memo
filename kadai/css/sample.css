@@ -258,31 +258,31 @@ main {
 
 button {
     border: none;
-    border-radius: 40px; /* 丸みを帯びたボーダー */
-    padding: 10px 20px; /* 上下のパディングと左右のパディング */
-    background-color: #feaf39; /* ボタンの背景色 */
-    color: white; /* ボタンのテキスト色 */
-    cursor: pointer; /* カーソルをポインターに */
+    border-radius: 40px; 
+    padding: 10px 20px; 
+    background-color: #feaf39; 
+    color: white; 
+    cursor: pointer; 
     font-size: 16px; /* フォントサイズ */
     margin: 5px; /* ボタン間の余白 */
-    transition: background-color 0.3s; /* 背景色の変化を滑らかに */
+    transition: background-color 0.3s; 
 }
 
 button:hover {
-    background-color: #ffd12c; /* ホバー時の背景色 */
+    background-color: #ffd12c; 
 }
 
 /* クリックイベントに対する特定のボタンのスタイルを変更する場合 */
 .save-button {
-    background-color: #feaf39; /* Saveボタンの色 */
+    background-color: #feaf39; 
 }
 
 .delete-button {
-    background-color: #d9534f; /* 削除ボタンの色 */
+    background-color: #d9534f; 
 }
 
 .delete-button:hover {
-    background-color: #fd6d68; /* 削除ボタンの色 */
+    background-color: #fd6d68; 
 }
 
 .button-group {
